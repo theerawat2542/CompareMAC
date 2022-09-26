@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Datebase</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css"/>
+</head>
+<body style="background-color:#F4FBFD;">
+<button type="button" onclick="window.location.href='{{url_for('match')}}'" class="btn btn-secondary">Back</button>
+<br/>
+<div class="container">
+    <h2 align="center">Report data by Date</h2>
+    <br/>
+    <div class="row">
+    <div class="col-md-2">
+        <input type="text" name="From" id="From" class="form-control" placeholder="From Date"/>
+    </div>
+    <div class="col-md-2">
+        <input type="text" name="to" id="to" class="form-control" placeholder="To Date"/>
+    </div>
+    <div class="col-md-8">
+        <input type="button" name="range" id="range" value="Range" class="btn btn-primary"/>
+    </div>
+    <div class="clearfix"></div>
+    <br/>
+    </div>
+    <div id="purchase_order">
+    <table class="table table-bordered">
+        <tr>
+        <th width="15%" bgcolor="#17677E" style="color:white;">Date/Time</th>
+        <th width="20%" bgcolor="#17677E" style="color:white;">Product Code</th>
+        <th width="20%" bgcolor="#17677E" style="color:white;">Mac Address</th>
+        <th width="10%" bgcolor="#17677E" style="color:white;">Test Result</th>
+        </tr>
+        {% for row in orders %}
+        <tr>
+        <td>{{row.date_time}}</td>
+        <td>{{row.product_code}}</td>
+        <td>{{row.mac_address}}</td>
+        <td>{{row.result}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+<script>
+$(document).ready(function(){
+    $.datepicker.setDefaults({
+        dateFormat: 'yy-mm-dd'
+    });
+    $(function(){
+        $("#From").datepicker();
+        $("#to").datepicker();
+    });
+    $('#range').click(function(){
+        var From = $('#From').val();
+        var to = $('#to').val();
+        if(From != '' && to != '')
+        {
+            $.ajax({
+                url:"/range",
+                method:"POST",
+                data:{From:From, to:to},
+                success:function(data)
+                {
+                    $('#purchase_order').html(data);
+                    $('#purchase_order').append(data.htmlresponse);
+                }
+            });
+        }
+        else
+        {
+            alert("Please Select the Date");
+        }
+    });
+});
+</script>
+</body>
+</html>

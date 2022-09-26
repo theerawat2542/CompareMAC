@@ -1,0 +1,50 @@
+<script>
+    function exportTableToExcel(tableID, filename = ''){
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById(tableID);
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    
+    // Specify file name
+    filename = filename?filename+'.xls':'excel_data.xls';
+    
+    // Create download link element
+    downloadLink = document.createElement("a");
+    
+    document.body.appendChild(downloadLink);
+    
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['\ufeff', tableHTML], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+    
+        // Setting the file name
+        downloadLink.download = filename;
+        
+        //triggering the function
+        downloadLink.click();
+    }
+}
+</script>
+
+<table class="table table-bordered" id="tblData">
+    <tr>
+        <th width="15%" bgcolor="#17677E" style="color:white;">Date/Time</th>
+        <th width="20%" bgcolor="#17677E" style="color:white;">Product Code</th>
+        <th width="20%" bgcolor="#17677E" style="color:white;">Mac Address</th>
+        <th width="10%" bgcolor="#17677E" style="color:white;">Test Result</th>
+    </tr>
+    {% for row in ordersrange %}
+        <tr>
+            <td>{{row.date_time}}</td>
+            <td>{{row.product_code}}</td>
+            <td>{{row.mac_address}}</td>
+            <td>{{row.result}}</td>
+        </tr>
+    {% endfor %}
+</table>
+<button onclick="exportTableToExcel('tblData', 'current-data')" style="background-color:green; color:white;">Excel File</button>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mac Address Matching</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css"/>
+</head>
+<body onload="document.getElementById('pcode').focus()" style="background-color:#F4FBFD;">
+<center>
+
+{% block content %}
+<form action="{{url_for('match')}}" method="GET">
+  <br><br>
+  <label><h2>Scan or Input:</h2></label><br>
+  <input type="text" id="pcode" name="pcode" maxlength="20" style="font-size:80px; background-color : #d1d1d1;" oninput="this.value = this.value.toUpperCase()" required><br>
+  <input type="text" id="mcad" name="mcad" maxlength="12" style="font-size:70px; background-color : #d1d1d1;" oninput="this.value = this.value.toUpperCase()" required><br><br>
+  <input type="submit" value="Compare" class="btn btn-primary">
+  <button type="button" onclick="window.location.href='{{url_for('report')}}';" class="btn btn-warning">Report Data</button>
+</form>
+  {% if result == "OK" %}
+      <h1><b><p style="color:white; font-size:100px; background-color: green;">OK</p></b></h1>
+  {% else %}
+      <h1><b><p style="color:white; font-size:100px; background-color: red;">NG</p></b></h1>
+  {% endif %}
+
+{% endblock %}
+
+</center>
+</body>
+</html>
