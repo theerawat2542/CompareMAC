@@ -8,9 +8,9 @@ import pygame
 from pygame import mixer
 
 app = Flask(__name__)
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_HOST'] = '10.35.10.47'
+app.config['MYSQL_USER'] = 'thanatd'
+app.config['MYSQL_PASSWORD'] = 'google555'
 app.config['MYSQL_DB'] = 'mac_address'
 mysql = MySQL(app)
 
@@ -81,7 +81,7 @@ def db():
         len_product = len(product_code) #20
         len_mac = len(mac_add) #12
         if len_product==20 and len_mac==12:
-            conn = pymysql.connect(host='localhost',user='root',password='',database='mac_address')
+            conn = pymysql.connect(host='10.35.10.47',user='thanatd',password='google555',database='mac_address')
             myCursor = conn.cursor()
             myCursor.execute("INSERT INTO compare_result(product_code,mac_address,result,date_time) VALUES(%s,%s,%s,%s);",(product_code,mac_add,result,dt_string))
             conn.commit()
