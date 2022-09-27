@@ -9,6 +9,9 @@ import pygame
 from pygame import mixer
 import webbrowser
 from threading import Timer
+import ctypes
+
+ctypes.windll.user32.ShowWindow( ctypes.windll.kernel32.GetConsoleWindow(), 0 )
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = '10.35.10.47'
