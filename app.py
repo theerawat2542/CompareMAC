@@ -7,6 +7,8 @@ import pymysql
 from flask_mysqldb import MySQL,MySQLdb
 import pygame 
 from pygame import mixer
+import webbrowser
+from threading import Timer
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = '10.35.10.47'
@@ -123,9 +125,13 @@ def range():
         cur.execute(query)
         ordersrange = cur.fetchall()
     return jsonify({'htmlresponse': render_template('response.html', ordersrange=ordersrange)})
+
+def open_browser():
+      webbrowser.open_new('http://127.0.0.1:5000/')
     
 if __name__=="__main__":
     # from waitress import serve
     # serve(app, host="0.0.0.0", port=8080)
+    Timer(1, open_browser).start();
     app.run(debug=False)
 
