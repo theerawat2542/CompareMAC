@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from flask import Flask,render_template,request,jsonify
 import asyncio
 from bleak import BleakScanner
@@ -25,14 +26,29 @@ async def Scanner():
     global mac_add
     global find
 
+    mac_list = []
     devices = await BleakScanner.discover()
     for d in devices:
-        MACID=d.address.replace(':','')    
-        if MACID==mac_add:
-            if mac_add!= " ":
-                find=1
-                break
-        else: find=2   
+        MACID=d.address.replace(':','')
+        mac_list.append(MACID)
+        mylist = list(OrderedDict.fromkeys(mac_list).keys())
+
+    MACcompare = filter(lambda x: x == mac_add, mylist)
+    length = list(MACcompare)
+    #mac_compare = ' '.join(length)
+    if len(length)==0:
+        find=2
+    else: find=1
+
+    # devices = await BleakScanner.discover()
+    # for d in devices:
+    #     MACID=d.address.replace(':','')
+    #     #print(MACID)    
+    #     if MACID==mac_add:
+    #         if mac_add!= " ":
+    #             find=1
+    #             break
+    #     else: find=2   
     compare()
 
 def check():
@@ -65,7 +81,7 @@ def match():
 
     product_code = product
     mac_add = mac
-    
+
     check()
     return render_template("match.html", result=result)
 
