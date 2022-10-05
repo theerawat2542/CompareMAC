@@ -26,6 +26,8 @@ mac_add= ""
 find=0
 result= ""
 
+# devices = bluetooth.discover_devices(lookup_names=True)
+
 async def Scanner():
     global MACID
     global mac_add
