@@ -19,8 +19,10 @@
 </form>
   {% if result == "OK" %}
       <h1><b><p style="color:white; font-size:100px; background-color: green;">OK</p></b></h1>
-  {% else %}
+  {% elif result == "NG" %}
       <h1><b><p style="color:white; font-size:100px; background-color: red;">NG</p></b></h1>
+  {% else %}
+      <h1><b><p style="color:white; font-size:100px; background-color: red;">Scan</p></b></h1>
   {% endif %}
 
 {% endblock %}

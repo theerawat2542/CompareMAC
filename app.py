@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from collections import OrderedDict
 from flask import Flask,render_template,request,jsonify
 import asyncio
@@ -30,6 +31,7 @@ result= ""
 
 async def Scanner():
     global MACID
+    global product_code
     global mac_add
     global find
 
@@ -43,9 +45,13 @@ async def Scanner():
     MACcompare = filter(lambda x: x == mac_add, mylist)
     length = list(MACcompare)
     #mac_compare = ' '.join(length)
-    if len(length)==0:
-        find=2
-    else: find=1
+    if mac_add is not None:
+        if len(length)==0:
+            find=2 
+
+        else: find=1
+    else: find=0
+    
 
     # devices = await BleakScanner.discover()
     # for d in devices:
@@ -71,9 +77,13 @@ def compare():
         result="OK"
         mixer.music.load("Sound_OK.wav")
         mixer.music.play()
-    else: 
+    elif find==2: 
         result="NG"
         mixer.music.load("Sound_NG.wav")
+        mixer.music.play()
+    elif find==0:
+        result="SCAN"
+        mixer.music.load("Sound_SCAN.wav")
         mixer.music.play()
     db()
 
@@ -88,7 +98,7 @@ def match():
 
     product_code = product
     mac_add = mac
-
+    
     check()
     return render_template("match.html", result=result)
 
