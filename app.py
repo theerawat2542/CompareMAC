@@ -48,7 +48,6 @@ async def Scanner():
     if mac_add is not None:
         if len(length)==0:
             find=2 
-
         else: find=1
     else: find=0
     
