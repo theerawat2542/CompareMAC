@@ -81,7 +81,7 @@ def compare():
         mixer.music.load("Sound_NG.wav")
         mixer.music.play()
     elif find==0:
-        result="SCAN"
+        result=""
         mixer.music.load("Sound_SCAN.wav")
         mixer.music.play()
     db()
