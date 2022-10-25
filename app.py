@@ -27,6 +27,7 @@ mac_add= ""
 find=0
 result= ""
 
+
 # devices = bluetooth.discover_devices(lookup_names=True)
 
 async def Scanner():
@@ -36,13 +37,14 @@ async def Scanner():
     global find
 
     mac_list = []
+    blist= []
     devices = await BleakScanner.discover()
     for d in devices:
         MACID=d.address.replace(':','')
         mac_list.append(MACID)
-        mylist = list(OrderedDict.fromkeys(mac_list).keys())
+        blist = list(OrderedDict.fromkeys(mac_list).keys())
 
-    MACcompare = filter(lambda x: x == mac_add, mylist)
+    MACcompare = filter(lambda x: x == mac_add, blist)
     length = list(MACcompare)
     #mac_compare = ' '.join(length)
     if mac_add is not None:
@@ -50,14 +52,12 @@ async def Scanner():
             find=2 
         else: find=1
     else: find=0
-    
-
     # devices = await BleakScanner.discover()
     # for d in devices:
     #     MACID=d.address.replace(':','')
     #     #print(MACID)    
     #     if MACID==mac_add:
-    #         if mac_add!= " ":
+    #         # if mac_add!= " ":
     #             find=1
     #             break
     #     else: find=2   
@@ -83,7 +83,7 @@ def compare():
     elif find==0:
         result=""
         mixer.music.load("Sound_SCAN.wav")
-        mixer.music.play()
+        mixer.music.play()  
     db()
 
 @app.route('/')
@@ -147,5 +147,5 @@ if __name__=="__main__":
     # from waitress import serve
     # serve(app, host="0.0.0.0", port=8080)
     Timer(1, open_browser).start();
-    app.run(debug=False)
+    app.run(debug=True)
 
